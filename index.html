@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>STOPTIME Dance Studio – Daugavpils</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#15112b;--bg2:#1e1840;--ink:#f4efff;--mute:#b4abd6;--pink:#ff3d8b;--sun:#ffd23f;--line:rgba(244,239,255,.16);color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f6f2ff;--bg2:#ebe4ff;--ink:#1a1438;--mute:#5b5384;--pink:#e0126b;--sun:#b78600;--line:rgba(26,20,56,.16);color-scheme:light}}
+:root[data-theme="dark"]{--bg:#15112b;--bg2:#1e1840;--ink:#f4efff;--mute:#b4abd6;--pink:#ff3d8b;--sun:#ffd23f;--line:rgba(244,239,255,.16);color-scheme:dark}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.65 Manrope,system-ui,sans-serif}
+h1,h2,h3{font-family:Unbounded,Impact,sans-serif;line-height:1.05;margin:0}
+a{color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;gap:14px}
+.logo{font:800 15px Unbounded,sans-serif;text-decoration:none;white-space:nowrap}
+.logo i{color:var(--pink);font-style:normal}
+nav ul{display:flex;gap:20px;list-style:none;margin:0;padding:0;overflow-x:auto}
+nav ul a{text-decoration:none;font-size:14px;font-weight:600;color:var(--mute);white-space:nowrap}
+nav ul a:hover,nav ul a:focus-visible{color:var(--ink)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--sun);outline-offset:3px}
+.hero{padding:64px 0 72px;overflow:hidden}
+.hero .wrap{display:block}
+.hero h1{font-size:clamp(54px,14vw,160px);font-weight:800;letter-spacing:-.04em;line-height:.95}
+.hero h1 b{font-weight:800;color:transparent;-webkit-text-stroke:2px var(--ink)}
+.hero h1 em{font-style:normal;color:var(--pink)}
+.hero h1 span{display:flex;align-items:center;gap:18px;margin-top:20px;font-size:clamp(16px,3.2vw,32px);font-weight:500;letter-spacing:.38em;color:var(--sun)}
+.hero h1 span:after{content:"";flex:1;height:2px;background:var(--line)}
+.hero p{max-width:46ch;color:var(--mute);font-size:19px;margin:22px 0 28px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-block;padding:13px 22px;border-radius:999px;font-weight:600;text-decoration:none;border:1.5px solid var(--ink);cursor:pointer;background:none;color:var(--ink);font-family:inherit;font-size:16px}
+.btn.main{background:var(--pink);border-color:var(--pink);color:#fff}
+.btn:hover{transform:translateY(-2px)}
+.clock{width:100%;max-width:360px;justify-self:center}
+.clock svg{width:100%;height:auto;display:block}
+.hand{transform-origin:100px 100px;animation:tick 6s steps(60) infinite}
+.frozen .hand{animation-play-state:paused}
+@keyframes tick{to{transform:rotate(360deg)}}
+.clock small{display:block;text-align:center;color:var(--mute);margin-top:10px;font-size:14px}
+section{padding:72px 0;border-top:1px solid var(--line)}
+section h2{font-size:clamp(26px,4.5vw,44px);font-weight:800;margin-bottom:14px;letter-spacing:-.02em}
+.lead{color:var(--mute);max-width:60ch;margin:0 0 36px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:18px;overflow:hidden}
+.stats div{padding:24px 20px;border-right:1px solid var(--line)}
+.stats div:last-child{border-right:0}
+.stats b{display:block;font:800 clamp(28px,4vw,42px) Unbounded,sans-serif;color:var(--sun)}
+.stats span{color:var(--mute);font-size:15px}
+.styles{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.card{background:var(--bg2);border-radius:22px;padding:26px;border:1px solid var(--line)}
+.card:nth-child(2){border-radius:22px 22px 22px 70px}
+.card:nth-child(3){border-radius:70px 22px 22px 22px}
+.card h3{font-size:20px;margin-bottom:12px}
+.card p{margin:0 0 14px;color:var(--mute);font-size:15px}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tags span{font-size:13px;font-weight:600;padding:5px 12px;border-radius:999px;border:1px solid var(--pink);color:var(--ink)}
+.cities{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.city{padding:20px;border-left:3px solid var(--pink);background:var(--bg2);border-radius:0 16px 16px 0}
+.city.main{border-color:var(--sun)}
+.city h3{font-size:18px;margin-bottom:6px}
+.city p{margin:0;color:var(--mute);font-size:14px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}
+.lmda{background:linear-gradient(135deg,var(--pink),#7a3cff);color:#fff;border-radius:28px;padding:36px}
+.lmda h3{font-size:26px;margin-bottom:12px}
+.lmda p{margin:0 0 20px;color:rgba(255,255,255,.9)}
+.lmda .btn{border-color:#fff;color:#fff}
+.lmda .btn:hover{background:#fff;color:#7a3cff}
+.list{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.list li{padding-left:26px;position:relative}
+.list li:before{content:"";position:absolute;left:0;top:.55em;width:10px;height:10px;border-radius:50%;background:var(--sun)}
+.mapbox{position:relative;border-radius:26px;overflow:hidden;border:1px solid var(--line);min-height:380px;background:var(--bg2);display:grid;place-items:center}
+.mapbox iframe{position:absolute;inset:0;width:100%;height:100%;border:0;filter:saturate(.9)}
+.mapfb{position:relative;padding:24px;text-align:center;color:var(--ink);line-height:1.5}
+.mapfb .pin{font-size:44px;line-height:1;margin-bottom:10px}
+.mapfb .btn{margin-top:18px}
+.mapart{position:absolute;inset:0;width:100%;height:100%;opacity:.7}
+.contact{display:grid;grid-template-columns:.8fr 1.2fr;gap:28px;align-items:stretch}
+.info{display:grid;gap:18px;align-content:start}
+.info h3{font-size:15px;margin-bottom:4px;color:var(--sun)}
+.info p{margin:0}
+.hours{width:100%;border-collapse:collapse;font-size:15px}
+.hours td{padding:6px 0;border-bottom:1px solid var(--line)}
+.hours td:last-child{text-align:right;color:var(--mute)}
+footer{border-top:1px solid var(--line);padding:30px 0 40px;color:var(--mute);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+@media (max-width:860px){
+.hero .wrap,.split,.contact{grid-template-columns:1fr}
+.stats{grid-template-columns:1fr 1fr}.stats div:nth-child(2){border-right:0}.stats div:nth-child(-n+2){border-bottom:1px solid var(--line)}
+.styles,.cities{grid-template-columns:1fr 1fr}
+.clock{max-width:260px}}
+@media (max-width:560px){.styles,.cities{grid-template-columns:1fr}nav ul{display:none}}
+@media (prefers-reduced-motion:reduce){.hand{animation:none}html{scroll-behavior:auto}.btn:hover{transform:none}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+<a class="logo" href="#sakums">STOP<i>TIME</i></a>
+<ul>
+<li><a href="#par-mums">Par mums</a></li>
+<li><a href="#virzieni">Deju virzieni</a></li>
+<li><a href="#filiales">Filiāles</a></li>
+<li><a href="#lmda">LMDA</a></li>
+<li><a href="#kontakti">Kontakti</a></li>
+</ul></div></nav>
+
+<header class="hero" id="sakums"><div class="wrap">
+<div>
+<h1><b>STOP</b><em>TIME</em><span>Dance Studio</span></h1>
+<p>STOPTIME Dance Studio – mūsdienu horeogrāfija, Street Dance un Hip-Hop Daugavpilī kopš 1995. gada.</p>
+<div class="btns">
+<a class="btn main" href="#kontakti">Pieteikties uz izmēģinājuma nodarbību</a>
+</div></div></div></header>
+
+<section id="par-mums"><div class="wrap">
+<h2>Deja, kas turpinās jau 30 gadus</h2>
+<p class="lead">STOPTIME ir sabiedriskā organizācija (biedrība) ar vadītājiem Aleksandru un Evitu Lukšām. Studijas skolotāji ir mācījušies Vācijā, Zviedrijā, Itālijā, Lietuvā, Francijā un Lielbritānijā. Studija rīko pasākumus, meistarklases un sacensības, kā arī piedalās čempionātos un festivālos.</p>
+<div class="stats">
+<div><b>1995</b><span>studijas dibināšanas gads</span></div>
+<div><b>2007</b><span>organizācijas reģistrācija</span></div>
+<div><b>2</b><span>pilsētas: Daugavpils un Rēzekne</span></div>
+<div><b>4,6</b><span>Google vērtējums (28 atsauksmes)</span></div>
+</div></div></section>
+
+<section id="virzieni"><div class="wrap">
+<h2>Deju virzieni</h2>
+<p class="lead">No ielas kultūras līdz klubu ritmiem un skatuves šoviem – katram ir sava vieta.</p>
+<div class="styles">
+<div class="card"><h3>Street Dance</h3><p>Ielas dejas pamati un tehnika.</p><div class="tags"><span>Hip-Hop</span><span>Locking</span><span>Popping</span><span>Breakdance</span></div></div>
+<div class="card"><h3>Club Dance</h3><p>Klubu kultūras stili un enerģija.</p><div class="tags"><span>House</span><span>Waacking</span><span>Go-Go</span></div></div>
+<div class="card"><h3>Contemporary</h3><p>Mūsdienu deja ar plūstošu kustību un izteiksmi.</p><div class="tags"><span>Contemporary</span></div></div>
+<div class="card"><h3>Šovs</h3><p>Uzstāšanās uz skatuves – grupu numuri un šovprogrammas.</p><div class="tags"><span>Iestudējumi</span><span>Šovprogrammas</span><span>Grupu priekšnesumi</span></div></div>
+</div></div></section>
+
+<section id="filiales"><div class="wrap">
+<h2>Kur mēs dejojam</h2>
+<p class="lead">Nodarbību laikus un filiāļu aktualitāti lūdzam precizēt pie vadības.</p>
+<div class="cities">
+<div class="city main"><h3>Daugavpils</h3><p>Galvenā studija<br>18. novembra iela 18A</p></div>
+<div class="city"><h3>Rēzekne</h3><p>Rēzeknes 1. vidusskola</p></div>
+</div></div></section>
+
+<section id="lmda"><div class="wrap split">
+<div>
+<h2>Sacensības un LMDA</h2>
+<ul class="list">
+<li>Pilntiesīgs LMDA – Latvijas Mūsdienu Deju asociācijas – dalībnieks un partneris.</li>
+<li>Dalība Latvijas čempionātos un reitinga sacensībās.</li>
+</ul></div>
+<div class="lmda">
+<h3>Latvijas Mūsdienu Deju asociācija</h3>
+<p>Sacensību kalendārs, rezultāti un jaunumi no mūsdienu deju pasaules Latvijā.</p>
+<a class="btn" href="https://emilsluksha.github.io/LMDA/#sakums" target="_blank" rel="noopener">Atvērt LMDA mājaslapu</a>
+</div></div></section>
+
+<section id="kontakti"><div class="wrap">
+<h2>Kontakti un karte</h2>
+<p class="lead">Atnāc uz izmēģinājuma nodarbību un pats izjūti atmosfēru.</p>
+<div class="contact">
+<div class="info">
+<div><h3>Adrese</h3><p>18. novembra iela 18A, Daugavpils, LV-5401</p></div>
+<div><h3>Tālrunis</h3><p><a href="tel:+37129149918">+371 29 149 918</a> (Evita)<br><a href="tel:+37122307407">+371 22 307 407</a> (Aleksandrs)</p></div>
+<div><h3>E-pasts</h3><p><a href="mailto:stop_time@inbox.lv">stop_time@inbox.lv</a></p></div>
+<div><h3>Darba laiks Daugavpilī</h3>
+<table class="hours"><tr><td>Pirmdiena–ceturtdiena</td><td>16:00–21:30</td></tr><tr><td>Piektdiena</td><td>16:00–20:30</td></tr></table></div>
+<a class="btn main" href="https://www.google.com/maps/search/?api=1&query=18.+novembra+iela+18A+Daugavpils" target="_blank" rel="noopener">Atvērt Google Maps</a>
+</div>
+<div class="mapbox">
+<svg class="mapart" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g stroke="var(--line)" stroke-width="10" fill="none" stroke-linecap="round"><path d="M-10 220 L410 120"/><path d="M120 -10 L200 310"/><path d="M300 -10 L260 310"/><path d="M-10 70 L410 40"/></g><g stroke="var(--line)" stroke-width="3" fill="none"><path d="M-10 150 L410 200"/><path d="M40 -10 L60 310"/><path d="M360 -10 L340 310"/></g></svg>
+<div class="mapfb"><div class="pin">📍</div><b>STOPTIME Dance Studio</b><br>18. novembra iela 18A<br>Daugavpils, LV-5401<br><a class="btn main" href="https://www.google.com/maps/search/?api=1&query=18.+novembra+iela+18A+Daugavpils" target="_blank" rel="noopener">Skatīt kartē</a></div>
+</div></div></div></section>
+
+<footer><div class="wrap">
+<span>© STOPTIME Dance Studio (STDS), biedrība, reģ. nr. 40008119952</span>
+<span>Daugavpils, Latvija</span>
+</div></footer>
+
+</body>
+</html>
