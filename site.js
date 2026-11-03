@@ -57,7 +57,7 @@
     const animation = aboutContent.animate([
       { height: `${startHeight}px`, marginTop: startMargin, opacity: startOpacity },
       { height: `${endHeight}px`, marginTop: open ? "36px" : "0px", opacity: open ? 1 : 0 }
-    ], { duration: 520, easing: "cubic-bezier(.22, 1, .36, 1)", fill: "both" });
+    ], { duration: 2500, easing: "ease-in-out", fill: "both" });
     aboutAnimation = animation;
     animation.onfinish = () => {
       if (aboutAnimation !== animation) return;

@@ -43,10 +43,11 @@ const fs = require('node:fs');
     await page.mouse.move(0, 0);
     assert.equal(await page.locator('#studija').isVisible(), false);
     await page.getByRole('button', { name: 'Skatīt vairāk', exact: true }).click();
+    assert.equal(await page.locator('#studija').evaluate(el => el.getAnimations()[0].effect.getTiming().duration), 2500);
     await page.waitForFunction(() => {
       const content = document.querySelector('#studija');
       const animation = content.getAnimations()[0];
-      return animation && animation.currentTime > 50 && content.clientHeight > 0 && content.clientHeight < content.scrollHeight;
+      return animation && animation.currentTime > 1100 && animation.currentTime < 1600 && content.clientHeight > content.scrollHeight * .3 && content.clientHeight < content.scrollHeight * .8;
     });
     await page.waitForFunction(() => document.querySelector('#studija').getAnimations().length === 0);
     assert.equal(await page.locator('#studija').isVisible(), true);
@@ -84,6 +85,18 @@ const fs = require('node:fs');
     const openForm = async () => {
       await page.locator('.hero [data-open-application]').click();
       assert.equal(await page.locator('#application-dialog').isVisible(), true);
+      const motion = await page.locator('#application-dialog').evaluate(el => ({
+        reduced: matchMedia('(prefers-reduced-motion: reduce)').matches,
+        animation: getComputedStyle(el).animationName,
+        duration: getComputedStyle(el).animationDuration,
+        backdropAnimation: getComputedStyle(el, '::backdrop').animationName
+      }));
+      if (!motion.reduced) {
+        assert.equal(motion.animation, 'application-enter');
+        assert.equal(motion.duration, '0.8s');
+        assert.equal(motion.backdropAnimation, 'application-backdrop-enter');
+      }
+      await page.locator('#application-dialog').evaluate(el => Promise.all(el.getAnimations().map(animation => animation.finished)));
     };
     const fillForm = async () => {
       await page.locator('#app-name').fill('Pārbaudes Lietotājs');

@@ -33,6 +33,16 @@ input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px
 body.dialog-open { overflow: hidden; }
 dialog { color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 26px; width: min(640px, calc(100% - 32px)); max-height: calc(100dvh - 32px); padding: 30px; overscroll-behavior: contain; }
 dialog::backdrop { background: rgba(10, 7, 24, .78); backdrop-filter: blur(5px); }
+dialog[open] { animation: application-enter 800ms ease-in-out both; }
+dialog[open]::backdrop { animation: application-backdrop-enter 800ms ease-in-out both; }
+@keyframes application-enter {
+  from { opacity: 0; transform: translateY(24px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes application-backdrop-enter {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 .dialog-heading { display: flex; align-items: center; justify-content: space-between; margin-bottom: 22px; gap: 16px; }
 .dialog-close { display: grid; place-items: center; width: 44px; height: 44px; padding: 8px; border: 1px solid var(--line); border-radius: 50%; color: var(--ink); background: var(--bg2); cursor: pointer; flex-shrink: 0; }
 dialog h2 { font-family: "Barlow Condensed", Impact, sans-serif; font-weight: 600; font-size: clamp(32px, 4vw, 42px); line-height: 1.1; }
@@ -74,6 +84,7 @@ nav .logo:is(:hover, :focus-visible) { color: var(--sun); }
 .info a:not(.btn):is(:hover, :focus-visible), .form-contact a:is(:hover, :focus-visible) { color: var(--pink); text-decoration-thickness: 2px; text-underline-offset: 4px; }
 .btn:not(:disabled):active, .dialog-close:active { transform: translateY(1px); box-shadow: none; }
 @media (prefers-reduced-motion: reduce) {
+  dialog[open], dialog[open]::backdrop { animation: none; }
   .btn, .dialog-close, .news-link, .news-link span, nav a, .info a, .form-contact a { transition: none; }
   .btn:not(:disabled):is(:hover, :focus-visible, :active), .dialog-close:is(:hover, :focus-visible, :active), .news-link:is(:hover, :focus-visible) span { transform: none; }
 }
