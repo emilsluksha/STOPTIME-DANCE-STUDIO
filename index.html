@@ -4,11 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>STOPTIME Dance Studio – Daugavpils</title>
+<meta name="description" content="STOPTIME Dance Studio Daugavpilī. Street Dance, Hip-Hop un mūsdienu deja kopš 1995. gada. Piesakies izmēģinājuma nodarbībai.">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;800&family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/unbounded-800.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="assets/fonts/manrope-400.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="assets/fonts/barlow-condensed-600.ttf" as="font" type="font/ttf" crossorigin>
 <style>
 :root{--bg:#15112b;--bg2:#1e1840;--ink:#f4efff;--mute:#b4abd6;--pink:#ff3d8b;--sun:#ffd23f;--line:rgba(244,239,255,.16);color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f6f2ff;--bg2:#ebe4ff;--ink:#1a1438;--mute:#5b5384;--pink:#e0126b;--sun:#b78600;--line:rgba(26,20,56,.16);color-scheme:light}}
@@ -97,57 +99,76 @@ footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
 @media (max-width:560px){.styles,.cities{grid-template-columns:1fr}nav ul{display:none}}
 @media (prefers-reduced-motion:reduce){.hand{animation:none}html{scroll-behavior:auto}.btn:hover{transform:none}}
 </style>
+<link rel="stylesheet" href="updates.css">
+<script src="site-config.js" defer></script>
+<script src="site.js" defer></script>
 </head>
 <body>
-<nav><div class="wrap">
+<nav aria-label="Galvenā navigācija"><div class="wrap">
 <a class="logo" href="#sakums">STOP<i>TIME</i></a>
-<ul>
+<button class="btn menu-toggle" type="button" aria-expanded="false" aria-controls="navigation" hidden>Izvēlne</button>
+<ul id="navigation">
+<li><a href="#aktualitates">Aktualitātes</a></li>
 <li><a href="#par-mums">Par mums</a></li>
-<li><a href="#virzieni">Deju virzieni</a></li>
-<li><a href="#filiales">Filiāles</a></li>
 <li><a href="#lmda">LMDA</a></li>
 <li><a href="#kontakti">Kontakti</a></li>
 </ul></div></nav>
 
+<main>
 <header class="hero" id="sakums"><div class="wrap">
 <div>
 <h1><b>STOP</b><em>TIME</em><span>Dance Studio</span></h1>
+<h2 class="hero-slogan">Deja, kas turpinās jau <em>30 gadus</em></h2>
+<div class="hero-intro">
 <p>STOPTIME Dance Studio – mūsdienu horeogrāfija, Street Dance un Hip-Hop Daugavpilī kopš 1995. gada.</p>
 <div class="btns">
-<a class="btn main" href="#kontakti">Pieteikties uz izmēģinājuma nodarbību</a>
-</div></div></div></header>
+<a class="btn main" href="mailto:gribudejot_stoptime@inbox.lv?subject=Pieteikums%20izm%C4%93%C4%A3in%C4%81juma%20nodarb%C4%ABbai" data-open-application>Pieteikties uz izmēģinājuma nodarbību</a>
+</div></div></div></div></header>
+
+<section id="aktualitates" aria-labelledby="news-title"><div class="wrap">
+<h2 id="news-title">Aktualitātes</h2>
+<p class="lead">Nodarbības, deju virzieni un sacensības — viss vienuviet.</p>
+<div class="news-grid">
+<article class="card"><h3>Studijas dzīve</h3><p>Pasākumi, meistarklases un uzstāšanās. Iepazīsti STOPTIME un cilvēkus, kuri veido mūsu studiju.</p><a class="news-link" href="#par-mums">Iepazīsti studiju <span aria-hidden="true">&rarr;</span></a></article>
+<article class="card"><h3>Atrodi savu deju virzienu</h3><p>Street Dance, Club Dance, Contemporary un skatuves šovi. Iepazīsti studijas deju virzienus.</p><a class="news-link" href="#virzieni">Skatīt deju virzienus <span aria-hidden="true">&rarr;</span></a></article>
+<article class="card"><h3>Sacensības un LMDA</h3><p>Sacensību kalendārs, rezultāti un Latvijas Mūsdienu Deju asociācijas jaunumi.</p><a class="news-link" href="#lmda">Vairāk par LMDA <span aria-hidden="true">&rarr;</span></a></article>
+</div></div></section>
 
 <section id="par-mums"><div class="wrap">
-<h2>Deja, kas turpinās jau 30 gadus</h2>
+<h2>Par mums</h2>
+<div class="about-intro">
 <p class="lead">STOPTIME ir sabiedriskā organizācija (biedrība) ar vadītājiem Aleksandru un Evitu Lukšām. Studijas skolotāji ir mācījušies Vācijā, Zviedrijā, Itālijā, Lietuvā, Francijā un Lielbritānijā. Studija rīko pasākumus, meistarklases un sacensības, kā arī piedalās čempionātos un festivālos.</p>
+<a class="btn about-toggle" href="#studija" aria-expanded="true" aria-controls="studija">Skatīt vairāk</a>
+</div>
+<div id="studija">
 <div class="stats">
 <div><b>1995</b><span>studijas dibināšanas gads</span></div>
 <div><b>2007</b><span>organizācijas reģistrācija</span></div>
 <div><b>2</b><span>pilsētas: Daugavpils un Rēzekne</span></div>
-<div><b>4,6</b><span>Google vērtējums (28 atsauksmes)</span></div>
-</div></div></section>
+<div><b>400+</b><span>dejotāju studijā</span></div>
+</div>
 
-<section id="virzieni"><div class="wrap">
-<h2>Deju virzieni</h2>
+<div class="about-block" id="virzieni">
+<h3 class="subheading" tabindex="-1">Deju virzieni</h3>
 <p class="lead">No ielas kultūras līdz klubu ritmiem un skatuves šoviem – katram ir sava vieta.</p>
 <div class="styles">
-<div class="card"><h3>Street Dance</h3><p>Ielas dejas pamati un tehnika.</p><div class="tags"><span>Hip-Hop</span><span>Locking</span><span>Popping</span><span>Breakdance</span></div></div>
-<div class="card"><h3>Club Dance</h3><p>Klubu kultūras stili un enerģija.</p><div class="tags"><span>House</span><span>Waacking</span><span>Go-Go</span></div></div>
-<div class="card"><h3>Contemporary</h3><p>Mūsdienu deja ar plūstošu kustību un izteiksmi.</p><div class="tags"><span>Contemporary</span></div></div>
-<div class="card"><h3>Šovs</h3><p>Uzstāšanās uz skatuves – grupu numuri un šovprogrammas.</p><div class="tags"><span>Iestudējumi</span><span>Šovprogrammas</span><span>Grupu priekšnesumi</span></div></div>
-</div></div></section>
+<div class="card"><h4>Street Dance</h4><p>Ielas dejas pamati un tehnika.</p><div class="tags"><span>Hip-Hop</span><span>Locking</span><span>Popping</span><span>Breakdance</span></div></div>
+<div class="card"><h4>Club Dance</h4><p>Klubu kultūras stili un enerģija.</p><div class="tags"><span>House</span><span>Waacking</span><span>Go-Go</span></div></div>
+<div class="card"><h4>Contemporary</h4><p>Mūsdienu deja ar plūstošu kustību un izteiksmi.</p><div class="tags"><span>Contemporary</span></div></div>
+<div class="card"><h4>Šovs</h4><p>Uzstāšanās uz skatuves – grupu numuri un šovprogrammas.</p><div class="tags"><span>Iestudējumi</span><span>Šovprogrammas</span><span>Grupu priekšnesumi</span></div></div>
+</div></div>
 
-<section id="filiales"><div class="wrap">
-<h2>Kur mēs dejojam</h2>
+<div class="about-block" id="filiales">
+<h3 class="subheading" tabindex="-1">Kur mēs dejojam</h3>
 <p class="lead">Nodarbību laikus un filiāļu aktualitāti lūdzam precizēt pie vadības.</p>
 <div class="cities">
-<div class="city main"><h3>Daugavpils</h3><p>Galvenā studija<br>18. novembra iela 18A</p></div>
-<div class="city"><h3>Rēzekne</h3><p>Rēzeknes 1. vidusskola</p></div>
-</div></div></section>
+<div class="city main"><h4>Daugavpils</h4><p>Galvenā studija<br>18. novembra iela 18A</p></div>
+<div class="city"><h4>Rēzekne</h4><p>Rēzeknes 1. vidusskola</p></div>
+</div></div></div></div></section>
 
 <section id="lmda"><div class="wrap split">
 <div>
-<h2>Sacensības un LMDA</h2>
+<h2>LMDA</h2>
 <ul class="list">
 <li>Pilntiesīgs LMDA – Latvijas Mūsdienu Deju asociācijas – dalībnieks un partneris.</li>
 <li>Dalība Latvijas čempionātos un reitinga sacensībās.</li>
@@ -165,15 +186,39 @@ footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
 <div class="info">
 <div><h3>Adrese</h3><p>18. novembra iela 18A, Daugavpils, LV-5401</p></div>
 <div><h3>Tālrunis</h3><p><a href="tel:+37129149918">+371 29 149 918</a> (Evita)<br><a href="tel:+37122307407">+371 22 307 407</a> (Aleksandrs)</p></div>
-<div><h3>E-pasts</h3><p><a href="mailto:stop_time@inbox.lv">stop_time@inbox.lv</a></p></div>
+<div><h3>E-pasts</h3><p><a href="mailto:stop_time@inbox.lv" data-contact-email>stop_time@inbox.lv</a></p></div>
 <div><h3>Darba laiks Daugavpilī</h3>
 <table class="hours"><tr><td>Pirmdiena–ceturtdiena</td><td>16:00–21:30</td></tr><tr><td>Piektdiena</td><td>16:00–20:30</td></tr></table></div>
 <a class="btn main" href="https://www.google.com/maps/search/?api=1&query=18.+novembra+iela+18A+Daugavpils" target="_blank" rel="noopener">Atvērt Google Maps</a>
 </div>
 <div class="mapbox">
 <svg class="mapart" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g stroke="var(--line)" stroke-width="10" fill="none" stroke-linecap="round"><path d="M-10 220 L410 120"/><path d="M120 -10 L200 310"/><path d="M300 -10 L260 310"/><path d="M-10 70 L410 40"/></g><g stroke="var(--line)" stroke-width="3" fill="none"><path d="M-10 150 L410 200"/><path d="M40 -10 L60 310"/><path d="M360 -10 L340 310"/></g></svg>
-<div class="mapfb"><div class="pin">📍</div><b>STOPTIME Dance Studio</b><br>18. novembra iela 18A<br>Daugavpils, LV-5401<br><a class="btn main" href="https://www.google.com/maps/search/?api=1&query=18.+novembra+iela+18A+Daugavpils" target="_blank" rel="noopener">Skatīt kartē</a></div>
+<div class="mapfb"><div class="pin" aria-hidden="true"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></div><b>STOPTIME Dance Studio</b><br>18. novembra iela 18A<br>Daugavpils, LV-5401<br><a class="btn main" href="https://www.google.com/maps/search/?api=1&query=18.+novembra+iela+18A+Daugavpils" target="_blank" rel="noopener">Skatīt kartē</a></div>
 </div></div></div></section>
+</main>
+
+<dialog id="application-dialog" aria-labelledby="application-title" aria-describedby="application-description">
+<div class="dialog-heading"><span class="logo">STOP<i>TIME</i></span><button class="dialog-close" type="button" aria-label="Aizvērt anketu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+<h2 id="application-title">Piesakies izmēģinājuma nodarbībai</h2>
+<p id="application-description">Pastāsti nedaudz par sevi, lai varam vienoties par nodarbības laiku. Ja piesaki bērnu, norādi vecāka kontaktinformāciju.</p>
+<form id="application-form" method="post">
+<div class="form-grid">
+<label class="full-width" for="app-name">Vārds un uzvārds <span aria-hidden="true">*</span><input id="app-name" name="name" autocomplete="name" required maxlength="100"></label>
+<label for="app-email">E-pasts <span aria-hidden="true">*</span><input id="app-email" name="email" type="email" autocomplete="email" required maxlength="150"></label>
+<label for="app-phone">Tālrunis <span class="optional">(nav obligāts)</span><input id="app-phone" name="phone" type="tel" autocomplete="tel" maxlength="30"></label>
+<label for="app-city">Pilsēta <span aria-hidden="true">*</span><select id="app-city" name="city" required><option value="">Izvēlies pilsētu</option><option>Daugavpils</option><option>Rēzekne</option></select></label>
+<label for="app-style">Deju virziens<select id="app-style" name="style"><option>Vēlos ieteikumu</option> <option>Street Dance</option><option>Club Dance</option><option>Contemporary</option><option>Šovs</option></select></label>
+<label class="full-width" for="app-message">Ziņa <span class="optional">(nav obligāta)</span><textarea id="app-message" name="message" rows="3" maxlength="1000" placeholder="Pieredze dejās, vēlamais laiks vai jautājums…"></textarea></label>
+</div>
+<div class="form-honeypot" aria-hidden="true"><label>Atstāj šo lauku tukšu<input name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+<input type="hidden" name="subject" value="STOPTIME — pieteikums izmēģinājuma nodarbībai">
+<label class="consent"><input type="checkbox" name="consent" value="yes" required><span>Piekrītu, ka STOPTIME izmanto norādīto kontaktinformāciju, lai sazinātos ar mani par šo pieteikumu. <span aria-hidden="true">*</span></span></label>
+<p class="form-note" id="delivery-note">Anketa sagatavos e-pasta vēstuli. Lai nosūtītu pieteikumu, apstiprini nosūtīšanu savā e-pasta lietotnē.</p>
+<p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
+<button class="btn main form-submit" type="submit">Sagatavot e-pastu</button>
+<p class="form-contact">Vari arī rakstīt uz <a href="mailto:gribudejot_stoptime@inbox.lv" data-application-email>gribudejot_stoptime@inbox.lv</a> vai zvanīt <a href="tel:+37129149918">+371 29 149 918</a>.</p>
+</form>
+</dialog>
 
 <footer><div class="wrap">
 <span>© STOPTIME Dance Studio (STDS), biedrība, reģ. nr. 40008119952</span>
