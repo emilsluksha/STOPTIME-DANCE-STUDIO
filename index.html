@@ -99,9 +99,9 @@ footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
 @media (max-width:560px){.styles,.cities{grid-template-columns:1fr}nav ul{display:none}}
 @media (prefers-reduced-motion:reduce){.hand{animation:none}html{scroll-behavior:auto}.btn:hover{transform:none}}
 </style>
-<link rel="stylesheet" href="updates.css">
-<script src="site-config.js" defer></script>
-<script src="site.js" defer></script>
+<link rel="stylesheet" href="updates.css?v=20261104">
+<script src="site-config.js?v=20261104" defer></script>
+<script src="site.js?v=20261104" defer></script>
 </head>
 <body>
 <nav aria-label="Galvenā navigācija"><div class="wrap">
@@ -200,23 +200,21 @@ footer .wrap{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
 <dialog id="application-dialog" aria-labelledby="application-title" aria-describedby="application-description">
 <div class="dialog-heading"><span class="logo">STOP<i>TIME</i></span><button class="dialog-close" type="button" aria-label="Aizvērt anketu"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
 <h2 id="application-title">Piesakies izmēģinājuma nodarbībai</h2>
-<p id="application-description">Pastāsti nedaudz par sevi, lai varam vienoties par nodarbības laiku. Ja piesaki bērnu, norādi vecāka kontaktinformāciju.</p>
+<p id="application-description">Lejupielādē iesniegumu, aizpildi to un pievieno šeit. Ja piesaki bērnu, norādi vecāka tālruni.</p>
+<p><a class="btn application-download" href="assets/documents/iesniegums-2026-2027.docx" download="iesniegums_uznemsana_2026-2027.docx">Lejupielādēt iesniegumu (.docx)</a></p>
 <form id="application-form" method="post">
 <div class="form-grid">
-<label class="full-width" for="app-name">Vārds un uzvārds <span aria-hidden="true">*</span><input id="app-name" name="name" autocomplete="name" required maxlength="100"></label>
-<label for="app-email">E-pasts <span aria-hidden="true">*</span><input id="app-email" name="email" type="email" autocomplete="email" required maxlength="150"></label>
-<label for="app-phone">Tālrunis <span class="optional">(nav obligāts)</span><input id="app-phone" name="phone" type="tel" autocomplete="tel" maxlength="30"></label>
-<label for="app-city">Pilsēta <span aria-hidden="true">*</span><select id="app-city" name="city" required><option value="">Izvēlies pilsētu</option><option>Daugavpils</option><option>Rēzekne</option></select></label>
-<label for="app-style">Deju virziens<select id="app-style" name="style"><option>Vēlos ieteikumu</option> <option>Street Dance</option><option>Club Dance</option><option>Contemporary</option><option>Šovs</option></select></label>
-<label class="full-width" for="app-message">Ziņa <span class="optional">(nav obligāta)</span><textarea id="app-message" name="message" rows="3" maxlength="1000" placeholder="Pieredze dejās, vēlamais laiks vai jautājums…"></textarea></label>
+<label for="app-first-name">Vārds <span aria-hidden="true">*</span><input id="app-first-name" name="firstName" autocomplete="given-name" required maxlength="60"></label>
+<label for="app-last-name">Uzvārds <span aria-hidden="true">*</span><input id="app-last-name" name="lastName" autocomplete="family-name" required maxlength="80"></label>
+<label class="full-width" for="app-phone">Tālrunis <span aria-hidden="true">*</span><input id="app-phone" name="phone" type="tel" autocomplete="tel" required maxlength="30" pattern="[+0-9\s.\-\(\)]{7,30}" placeholder="+371 …"></label>
+<label class="full-width" for="app-document">Aizpildīts iesniegums <span aria-hidden="true">*</span><input id="app-document" name="document" type="file" accept=".docx,.doc,.pdf" required aria-describedby="document-help"><span class="form-note" id="document-help">DOCX, DOC vai PDF · viens fails, līdz 5 MB.</span></label>
 </div>
-<div class="form-honeypot" aria-hidden="true"><label>Atstāj šo lauku tukšu<input name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
-<input type="hidden" name="subject" value="STOPTIME — pieteikums izmēģinājuma nodarbībai">
-<label class="consent"><input type="checkbox" name="consent" value="yes" required><span>Piekrītu, ka STOPTIME izmanto norādīto kontaktinformāciju, lai sazinātos ar mani par šo pieteikumu. <span aria-hidden="true">*</span></span></label>
-<p class="form-note" id="delivery-note">Anketa sagatavos e-pasta vēstuli. Lai nosūtītu pieteikumu, apstiprini nosūtīšanu savā e-pasta lietotnē.</p>
+<div class="form-honeypot" aria-hidden="true"><label>Atstāj šo lauku tukšu<input name="website" tabindex="-1" autocomplete="off"></label></div>
+<label class="consent"><input type="checkbox" name="consent" required><span>Piekrītu iesnieguma un norādīto datu apstrādei, lai STOPTIME izskatītu manu pieteikumu. <span aria-hidden="true">*</span></span></label>
+<p class="form-note" id="delivery-note">Studija e-pastā saņems tavu vārdu, uzvārdu un pievienoto iesniegumu. Tālruni izmanto tikai anketas pārbaudei; norādi to arī iesniegumā, lai studija varētu ar tevi sazināties. Nosūtīšanu nodrošina Google Apps Script.</p>
 <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
-<button class="btn main form-submit" type="submit">Sagatavot e-pastu</button>
-<p class="form-contact">Vari arī rakstīt uz <a href="mailto:gribudejot_stoptime@inbox.lv" data-application-email>gribudejot_stoptime@inbox.lv</a> vai zvanīt <a href="tel:+37129149918">+371 29 149 918</a>.</p>
+<button class="btn main form-submit" type="submit">Nosūtīt pieteikumu</button>
+<p class="form-contact">Jautājumi? <a href="mailto:gribudejot_stoptime@inbox.lv" data-application-email>gribudejot_stoptime@inbox.lv</a> · <a href="tel:+37129149918">+371 29 149 918</a>.</p>
 </form>
 </dialog>
 

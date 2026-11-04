@@ -4,14 +4,13 @@
   const config = window.STOPTIME_CONFIG || {};
   const contactEmail = config.contactEmail || "stop_time@inbox.lv";
   const applicationEmail = config.applicationEmail || "gribudejot_stoptime@inbox.lv";
-  const useFormSubmit = config.deliveryMode === "formsubmit";
   const subject = "STOPTIME — pieteikums izmēģinājuma nodarbībai";
   const emailLink = `mailto:${applicationEmail}?subject=${encodeURIComponent(subject)}`;
   let endpoint = null;
   try {
-    const url = new URL(useFormSubmit ? `https://formsubmit.co/${applicationEmail}` : config.formEndpoint);
-    if (url.protocol === "https:" && !url.username && !url.password) endpoint = url.href;
-  } catch { /* No configured endpoint: use the explicit email-draft flow. */ }
+    const url = new URL(config.formEndpoint);
+    if (url.origin === "https://script.google.com" && /^\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(url.pathname)) endpoint = url.href;
+  } catch { /* Configuration is checked again before submitting. */ }
 
   const nav = document.querySelector("nav");
   const menuToggle = document.querySelector(".menu-toggle");
@@ -113,22 +112,13 @@
   const form = document.querySelector("#application-form");
   const status = document.querySelector("#form-status");
   const submitButton = form.querySelector('[type="submit"]');
-  const deliveryNote = document.querySelector("#delivery-note");
-  const defaultLabel = endpoint ? "Nosūtīt pieteikumu" : "Sagatavot e-pastu";
+  const defaultLabel = "Nosūtīt pieteikumu";
   let opener = null;
   let submitting = false;
   let submitted = false;
-
-  if (endpoint) {
-    form.action = endpoint;
-    submitButton.textContent = defaultLabel;
-    deliveryNote.textContent = "Pieteikums tiks nosūtīts studijai. Sazināsimies ar tevi, lai vienotos par nodarbības laiku.";
-    if (useFormSubmit) {
-      deliveryNote.textContent = "Pieteikumu uz " + applicationEmail + " nosūtām ar FormSubmit. Nākamajā solī, ja nepieciešams, apstiprini, ka neesi robots.";
-      form.elements.namedItem("subject").name = "_subject";
-      form.elements.namedItem("_gotcha").name = "_honey";
-    }
-  }
+  let attempt = null;
+  let openedAt = Date.now();
+  const fileInput = form.elements.namedItem("document");
   const showStatus = (message, state) => {
     status.textContent = message;
     status.dataset.state = state;
@@ -142,6 +132,7 @@
     link.addEventListener("click", (event) => {
       event.preventDefault();
       opener = link;
+      openedAt = Date.now();
       dialog.showModal();
       document.body.classList.add("dialog-open");
     });
@@ -151,83 +142,119 @@
     document.body.classList.remove("dialog-open");
     if (opener?.isConnected) opener.focus();
   });
-  form.addEventListener("input", () => {
+  form.addEventListener("input", (event) => {
+    event.target.setCustomValidity?.("");
     if (submitting) return;
     status.hidden = true;
     submitted = false;
+    attempt = null;
     submitButton.disabled = false;
     submitButton.textContent = defaultLabel;
   });
-  window.addEventListener("pageshow", () => {
-    // Restore the button if the visitor returns from the external verification page.
-    if (!useFormSubmit) return;
-    submitting = false;
-    submitButton.disabled = false;
-    submitButton.textContent = defaultLabel;
-    status.hidden = true;
+  function validateFile() {
+    const file = fileInput.files[0];
+    fileInput.setCustomValidity(!file ? "Pievieno aizpildītu iesniegumu." :
+      !/\.(docx|doc|pdf)$/i.test(file.name) ? "Izvēlies DOCX, DOC vai PDF failu." :
+      !file.size || file.size > 5 * 1024 * 1024 ? "Fails nedrīkst būt tukšs vai lielāks par 5 MB." : "");
+    return fileInput.validity.valid;
+  }
+  fileInput.addEventListener("change", validateFile);
+  const readFile = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result).split(",")[1]);
+    reader.onerror = () => reject(new Error("Neizdevās nolasīt failu. Pievieno to vēlreiz."));
+    reader.readAsDataURL(file);
   });
-  form.addEventListener("submit", async (event) => {
+  // HTML form POST + a correlated acknowledgement avoids cross-origin fetch/CORS
+  // issues with Google's redirects. Loading an iframe alone never means success.
+  function deliver(payload) {
+    return new Promise((resolve, reject) => {
+      const frame = document.createElement("iframe");
+      frame.name = "stoptime-" + payload.requestId;
+      frame.className = "application-transport";
+      frame.title = "Pieteikuma nosūtīšana";
+      const transport = document.createElement("form");
+      transport.method = "post";
+      transport.action = endpoint;
+      transport.target = frame.name;
+      transport.hidden = true;
+      const field = document.createElement("input");
+      field.type = "hidden";
+      field.name = "payload";
+      field.value = JSON.stringify(payload);
+      transport.append(field);
+      let timeout;
+      const cleanup = () => {
+        clearTimeout(timeout);
+        window.removeEventListener("message", receive);
+        transport.remove();
+        frame.remove();
+      };
+      const receive = event => {
+        if (!/^https:\/\/[a-z0-9-]+\.googleusercontent\.com$/.test(event.origin)) return;
+        const result = event.data;
+        if (!result || result.type !== "stoptime-result" || result.requestId !== payload.requestId) return;
+        cleanup();
+        if (result.ok === true) resolve(result);
+        else reject(new Error(result.message || "Neizdevās nosūtīt pieteikumu. Mēģini vēlreiz."));
+      };
+      window.addEventListener("message", receive);
+      timeout = setTimeout(() => {
+        cleanup();
+        reject(new Error("Nosūtīšanas apstiprinājums nav saņemts. Dati paliek anketā. Mēģini vēlreiz; atkārtota nosūtīšana izmanto to pašu pieteikuma numuru."));
+      }, 90000);
+      document.body.append(frame, transport);
+      HTMLFormElement.prototype.submit.call(transport);
+    });
+  }
+  form.addEventListener("submit", async event => {
     event.preventDefault();
-    if (submitting || submitted || !form.reportValidity()) return;
-    const name = form.elements.namedItem("name");
-    name.setCustomValidity(name.value.trim() ? "" : "Lūdzu, norādi savu vārdu un uzvārdu.");
+    if (submitting || submitted) return;
+    for (const key of ["firstName", "lastName"]) {
+      const input = form.elements.namedItem(key);
+      input.value = input.value.trim();
+      input.setCustomValidity(input.value ? "" : "Aizpildi šo lauku.");
+    }
+    validateFile();
     if (!form.reportValidity()) return;
-    const data = new FormData(form);
-    if (String(data.get(useFormSubmit ? "_honey" : "_gotcha") || "").trim()) return;
-    data.set("name", name.value.trim());
-
-    if (useFormSubmit && endpoint) {
-      // Native POST preserves FormSubmit's CAPTCHA and first-use email activation.
-      // A redirect is not treated as proof that the email reached the inbox.
-      name.value = name.value.trim();
-      submitting = true;
-      submitButton.disabled = true;
-      submitButton.textContent = "Nosūta…";
-      HTMLFormElement.prototype.submit.call(form);
-      return;
-    }
-
     if (!endpoint) {
-      const body = [
-        "Pieteikums izmēģinājuma nodarbībai", "",
-        `Vārds un uzvārds: ${data.get("name")}`,
-        `E-pasts: ${data.get("email")}`,
-        `Tālrunis: ${data.get("phone") || "Nav norādīts"}`,
-        `Pilsēta: ${data.get("city")}`,
-        `Deju virziens: ${data.get("style")}`, "",
-        `Ziņa: ${data.get("message") || "Nav norādīta"}`, "",
-        "Piekrītu, ka STOPTIME sazinās ar mani par šo pieteikumu."
-      ].join("\n");
-      showStatus("Vēstule ir sagatavota. Nosūti to savā e-pasta lietotnē. Ja lietotne neatveras, raksti uz " + applicationEmail + ". Pieteikums no šīs lapas vēl nav nosūtīts.", "info");
-      window.location.href = emailLink + "&body=" + encodeURIComponent(body);
+      showStatus("Pieteikumu nosūtīšana vēl nav pieslēgta. Lūdzu, nosūti aizpildīto iesniegumu uz " + applicationEmail + ".", "error");
       return;
     }
-
+    if (form.elements.namedItem("website").value) return;
     submitting = true;
-    Array.from(form.elements).forEach((control) => { control.disabled = true; });
-    submitButton.textContent = "Nosūta…";
+    const controls = Array.from(form.elements);
     form.setAttribute("aria-busy", "true");
-    showStatus("Nosūta pieteikumu…", "info");
-    const controller = new AbortController();
-    const timeout = window.setTimeout(() => controller.abort(), 15000);
+    submitButton.textContent = "Nosūta…";
+    showStatus("Nosūta iesniegumu. Lūdzu, neaizver šo lapu…", "info");
     try {
-      const response = await fetch(endpoint, {
-        method: "POST", body: data, headers: { Accept: "application/json" }, signal: controller.signal
-      });
-      if (!response.ok) throw new Error("Submission failed");
+      const payload = {
+        requestId: attempt || crypto.randomUUID(),
+        origin: location.origin,
+        firstName: form.elements.namedItem("firstName").value,
+        lastName: form.elements.namedItem("lastName").value,
+        phone: form.elements.namedItem("phone").value.trim(),
+        consent: form.elements.namedItem("consent").checked,
+        website: "",
+        elapsed: Date.now() - openedAt,
+        fileName: fileInput.files[0].name,
+        fileBase64: await readFile(fileInput.files[0])
+      };
+      attempt = payload.requestId;
+      controls.forEach(control => { control.disabled = true; });
+      await deliver(payload);
       submitted = true;
       form.reset();
-      showStatus("Paldies! Tavs pieteikums ir nosūtīts. Sazināsimies ar tevi par nodarbības laiku.", "success");
-    } catch {
-      showStatus("Neizdevās apstiprināt pieteikuma nosūtīšanu. Tavi ievadītie dati ir saglabāti anketā. Mēģini vēlreiz vai raksti uz " + applicationEmail + ".", "error");
+      showStatus("Paldies! Google pasta pakalpojums ir pieņēmis pieteikumu nosūtīšanai studijai.", "success");
+    } catch (error) {
+      showStatus(error.message || "Neizdevās nosūtīt. Mēģini vēlreiz vai raksti uz " + applicationEmail + ".", "error");
     } finally {
-      clearTimeout(timeout);
       submitting = false;
       form.removeAttribute("aria-busy");
-      Array.from(form.elements).forEach((control) => { control.disabled = false; });
+      controls.forEach(control => { control.disabled = false; });
       submitButton.disabled = submitted;
       submitButton.textContent = submitted ? "Pieteikums nosūtīts" : defaultLabel;
     }
   });
-  form.elements.namedItem("name").addEventListener("input", (event) => event.target.setCustomValidity(""));
+
 })();
